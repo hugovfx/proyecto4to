@@ -12,13 +12,13 @@ function Nav() {
       </div>
 
       <div className="divNav">
-        <Button size="large">Home</Button>
+        <Button size="large" href="/">Home</Button>
       </div>
       <div className="divNav">
-        <Button size="large">Home</Button>
+        <Button size="large" href="/">Home</Button>
       </div>
       <div className="divNav">
-        <Button size="large">Home</Button>
+        <Button size="large" href="/">Home</Button>
       </div>
       <div className="divNav">
         <Button size="large" color="error" href="login">

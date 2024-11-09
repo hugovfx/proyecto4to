@@ -1,12 +1,12 @@
 import "./Content.css";
 
-function Content() {
+function Content({info, name}) {
   return (
     <div className="content">
       <div className="divM">
         <div className="divN">
-           <h1>Herramienta</h1>
-           <p>esta herramienta esta herramienta esta herramienta esta herramienta esta herramienta esta herramienta esta herramienta </p>
+           <h1>{name}</h1>
+           <p style={{textAlign: "justify"}}>{info}</p>
         </div>
       </div>
     </div>

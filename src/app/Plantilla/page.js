@@ -9,7 +9,7 @@ export default function Home() {
       <Side></Side>
       <div className="cont12">
         <Nav/>
-        <Content/>
+        <Content name={"Herramienta"} info={"Herramienta para Herramienta para Herramienta para Herramienta para Herramienta para Herramienta para "}/>
       </div>
     </div>
   );
