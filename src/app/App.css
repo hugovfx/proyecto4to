@@ -17,3 +17,130 @@
   display: flex;
   flex-direction: column;
 }
+
+/* Botón flotante de chat */
+.chat-button {
+  position: fixed; /* Fijo en la pantalla */
+  bottom: 20px; /* A 20px del borde inferior */
+  right: 20px; /* A 20px del borde derecho */
+  background-color: #252525; /* Color de fondo */
+  padding: 15px;
+  border-radius: 50%; /* Circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  z-index: 1000; /* Asegura que quede encima del contenido */
+  transition: background-color 0.3s;
+}
+
+.chat-button:hover {
+  background-color: #4f4f4f; /* Cambio de color cuando se pasa el ratón */
+}
+
+.chat-icon {
+  color: white;
+  font-size: 30px;
+}
+
+/* Estilo del chat flotante */
+.chat-container {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-radius: 20px;
+  width: 25%; /* Ancho del chat */
+  height: 90vh;
+  margin-top: 20px;
+  background: linear-gradient(90deg, rgba(23,0,56,1) 0%, rgba(30,0,69,1) 71%, rgba(40,0,83,1) 100%);
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3); /* Sombra para el efecto flotante */
+  z-index: 999;
+  padding: 20px;
+  overflow-y: auto; /* Permite el desplazamiento dentro del chat */
+  transition: transform .3s ease; /* Animación al abrir y cerrar */
+}
+
+.chat-container.hidden {
+  transform: translateX(100%); /* Mueve el chat fuera de la pantalla */
+}
+
+.chat-container .messages {
+  margin-bottom: 20px;
+}
+
+/* Estilos del formulario */
+form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+input, button {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el "globo de texto" */
+.message-bubble {
+  display: flex;
+  flex-direction: column; /* Organizar nombre y mensaje de arriba hacia abajo */
+  max-width: 60%; /* Ancho máximo para los globos */
+  margin-bottom: 15px; /* Espacio entre mensajes */
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f0f0f0; /* Fondo gris claro para los mensajes */
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el nombre del usuario (arriba del mensaje) */
+.message-name {
+  font-size: 12px; /* Tamaño de fuente pequeño para el nombre */
+  font-weight: bold;
+  margin-bottom: 5px; /* Espacio entre el nombre y el mensaje */
+  color: #555; /* Color gris oscuro para el nombre */
+}
+
+/* Estilo para el texto del mensaje */
+.message-text {
+  font-size: 16px; /* Tamaño de fuente más grande para el mensaje */
+  line-height: 1.5;
+  color: #333; /* Color gris oscuro para el texto */
+  word-wrap: break-word; /* Asegura que el texto largo no se salga del contenedor */
+}
+
+/* Estilo para los mensajes enviados por el usuario (por ejemplo, mensaje a la derecha) */
+.message-bubble.mine {
+  background-color: #dcf8c6; /* Verde claro para los mensajes enviados por el usuario */
+  align-self: flex-end; /* Alinea el mensaje a la derecha */
+}
+
+/* Estilo para los mensajes recibidos (por ejemplo, mensaje a la izquierda) */
+.message-bubble.theirs {
+  background-color: #fff; /* Blanco para los mensajes recibidos */
+  align-self: flex-start; /* Alinea el mensaje a la izquierda */
+}
+
+
+
+
+/* Estilo de Chat */
+.chat-div{
+  overflow-y: scroll;
+  height: 60vh;
+}
+
