@@ -6,6 +6,7 @@ function Side() {
     <div className="side">
       <SideButton url={"/Plantilla"} name={"Plantilla"}/>
       <SideButton url={"/nmap"} name={"NMAP"}/>
+      <SideButton url={"/whois"} name={"WHO IS"}/>
     </div>
   );
 }
