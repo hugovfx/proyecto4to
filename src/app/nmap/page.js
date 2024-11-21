@@ -12,7 +12,7 @@ export default function Home() {
         <Nav/>
         <Content name={"NMAP"} info={"Nmap es una herramienta de código abierto utilizada para escanear redes y puertos. Permite a los usuarios identificar dispositivos en una red, detectar aplicaciones instaladas, y recopilar información sobre los servicios en ejecución. Es ampliamente utilizada en estudios de seguridad informática y para la administración de redes."}/>
       </div>
-      <ButtonChat/>
+      <ButtonChat chat="nmap"/>
     </div>
   );
 }
