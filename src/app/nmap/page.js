@@ -205,6 +205,7 @@ export default function Home() {
           </div>
         }/>
       </div>
+      <ButtonChat chat="nmap"/>
     </div>
   );
 }

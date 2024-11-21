@@ -4,11 +4,11 @@ import { collection, addDoc, serverTimestamp, query, onSnapshot, orderBy } from 
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
 import '../App.css';
 
-const ChatPage = () => {
+const ChatPage = ({chat}) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [user, setUser] = useState(null);
-  const roomId = "nmap"; // Sala por defecto
+  const roomId = chat; // Sala por defecto "nmap"
 
   // Obtener mensajes de Firestore
   useEffect(() => {
