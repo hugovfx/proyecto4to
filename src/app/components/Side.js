@@ -7,6 +7,10 @@ function Side() {
       <SideButton url={"/Plantilla"} name={"Plantilla"}/>
       <SideButton url={"/nmap"} name={"NMAP"}/>
       <SideButton url={"/whois"} name={"WHO IS"}/>
+      <SideButton url={"/mac-address"} name={"MAC ADDRESS"}/>
+      <SideButton url={"/domains-discovery"} name={"DESCUBRIR SUBDOMINIOS"}/>
+
+
     </div>
   );
 }
