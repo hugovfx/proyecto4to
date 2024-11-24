@@ -159,15 +159,15 @@ button:hover {
 }
 
 .messages-container::-webkit-scrollbar-thumb {
-  background-color: #d32f2f;
+  background-color: #424ea5;
   border-radius: 4px;
 }
 
 .messages-container::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
+  background-color: #b1bbff;
   border-radius: 4px;
 }
 
 .messages-container::-webkit-scrollbar-thumb:hover {
-  background-color: #b71c1c;
+  background-color: #343d7e;
 }

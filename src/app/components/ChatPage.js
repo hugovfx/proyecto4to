@@ -91,14 +91,14 @@ const ChatPage = ({ chat }) => {
     <div style={{ padding: '0px', height: '100%', overflowY: 'auto' }}>
       {!user ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
-          <button onClick={handleLogin} style={{ padding: '6px', marginBottom: '10px', backgroundColor: "rgb(0,0,0,0.0)", border: "solid 2px #d32f2f", fontSize: "18px", color:"#d32f2f" }}>
+          <button onClick={handleLogin} style={{ padding: '6px', marginBottom: '10px', backgroundColor: "rgb(0,0,0,0.0)", border: "solid 2px #424ea5", fontSize: "18px", color:"#424ea5" }}>
             Iniciar sesión con Google
           </button>
         </div>
       ) : (
         <div>
           <div style={{display: "flex", flexDirection:"row", width:"90%", justifyContent: "space-between"}}>
-          <button onClick={handleLogout} style={{ padding: '6px', marginBottom: '10px', backgroundColor: "rgb(0,0,0,0.0)", border: "solid 2px #d32f2f", fontSize: "18px", color:"#d32f2f" }}>
+          <button onClick={handleLogout} style={{ padding: '6px', marginBottom: '10px', backgroundColor: "rgb(0,0,0,0.0)", border: "solid 2px #a54242", fontSize: "18px", color:"#a54242" }}>
             Cerrar sesión
           </button>
           <button
@@ -108,7 +108,7 @@ const ChatPage = ({ chat }) => {
                   border: 'none',
                   cursor: 'pointer',
                   fontSize: '20px',
-                  color: 'red',
+                  color: '#a54242',
                 }}
               >
                 <i className="fa fa-trash" />
@@ -150,14 +150,7 @@ const ChatPage = ({ chat }) => {
               <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
                 <button
                   onClick={deleteMessages}
-                  style={{
-                    backgroundColor: 'red',
-                    color: 'white',
-                    border: 'none',
-                    padding: '10px 20px',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                  }}
+                  style={{ padding: '6px', marginBottom: '10px', backgroundColor: "rgb(0,0,0,0.0)", border: "solid 2px #a54242", fontSize: "18px", color:"#a54242" }}
                 >
                   Borrar mensajes
                 </button>
