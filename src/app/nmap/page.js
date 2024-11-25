@@ -67,19 +67,23 @@ export default function Home() {
           <div style={{ maxWidth: '100%', overflow: 'hidden' }}>
             <div className="flex gap-4" style={{ padding: '20px' }}>
               {/* Panel izquierdo */}
-              <div style={{ width: '40%' }}>
+              <div>
                 {/* Selector de tipo de búsqueda */}
-                <div className="flex gap-4 mb-4 justify-center">
-                  <button
-                    onClick={() => setSearchType('ip')}
-                    className={`px-4 py-2 rounded-lg font-medium ${
-                      searchType === 'ip' 
-                        ? 'bg-blue-600 text-white' 
-                        : 'bg-gray-700 text-white hover:bg-gray-600'
-                    }`}
-                  >
-                    Búsqueda por IP
-                  </button>
+                <div className="flex gap-4 justify-center">
+                <button
+                onClick={() => setSearchType('ip')}
+                className={`px-6 py-3 rounded-lg font-medium transition-all ${
+                  searchType === 'ip'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-700 text-white hover:bg-gray-600'
+                }`}
+                style={{
+                  minWidth: '150px', // Ajusta el mínimo para que quepa el texto completo
+                  textAlign: 'center', // Asegura que el texto esté centrado
+                }}
+              >
+                Búsqueda por IP
+              </button>
                   <button
                     onClick={() => setSearchType('query')}
                     className={`px-4 py-2 rounded-lg font-medium ${

@@ -148,7 +148,7 @@ export default function MacAddressPage() {
           </div>
         }/>
       </div>
-      <ButtonChat chat="nmap"/>
+      <ButtonChat chat="mac"/>
     </div>
   );
 }

@@ -11,7 +11,7 @@ export default function Home() {
         <Nav></Nav>
         <Contenido></Contenido>
       </div>
-      <ButtonChat chat="nmap"/>
+      <ButtonChat chat="general"/>
     </div>
   );
 }

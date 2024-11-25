@@ -3,6 +3,7 @@ import "../App.css";
 import Side from "../components/Side";
 import Nav from "../components/Nav";
 import Content from "../components/Content";
+import ButtonChat from "../components/ButtonChat";
 import { useState } from 'react';
 
 export default function WhoisPage() {
@@ -330,6 +331,7 @@ export default function WhoisPage() {
           </div>
         }/>
       </div>
+      <ButtonChat chat="whois"/>
     </div>
   );
 }

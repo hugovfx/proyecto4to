@@ -3,6 +3,7 @@ import "../App.css";
 import Side from "../components/Side";
 import Nav from "../components/Nav";
 import Content from "../components/Content";
+import ButtonChat from "../components/ButtonChat";
 import { useState } from 'react';
 
 export default function DomainsDiscoveryPage() {
@@ -255,6 +256,7 @@ export default function DomainsDiscoveryPage() {
           </div>
         }/>
       </div>
+      <ButtonChat chat="domain"/>
     </div>
   );
 }
