@@ -2,7 +2,7 @@ import "./App.css";
 import Side from "./components/Side";
 import Nav from "./components/Nav";
 import Contenido from "./components/Contenido";
-
+import ButtonChat from "./components/ButtonChat";
 export default function Home() {
   return (
     <div className="cont1">
@@ -11,6 +11,7 @@ export default function Home() {
         <Nav></Nav>
         <Contenido></Contenido>
       </div>
+      <ButtonChat chat="nmap"/>
     </div>
   );
 }

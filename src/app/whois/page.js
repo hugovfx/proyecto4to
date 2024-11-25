@@ -4,7 +4,7 @@ import Side from "../components/Side";
 import Nav from "../components/Nav";
 import Content from "../components/Content";
 import { useState } from 'react';
-
+import ButtonChat from "../components/ButtonChat";
 export default function WhoisPage() {
   const [query, setQuery] = useState('');
   const [result, setResult] = useState(null);
@@ -203,6 +203,7 @@ export default function WhoisPage() {
           </div>
         }/>
       </div>
+      <ButtonChat chat="nmap"/>
     </div>
   );
 }

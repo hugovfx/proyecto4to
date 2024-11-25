@@ -4,7 +4,7 @@ import Side from "../components/Side";
 import Nav from "../components/Nav";
 import Content from "../components/Content";
 import { useState } from 'react';
-
+import ButtonChat from "../components/ButtonChat";
 export default function MacAddressPage() {
   const [query, setQuery] = useState('');
   const [result, setResult] = useState(null);
@@ -148,6 +148,7 @@ export default function MacAddressPage() {
           </div>
         }/>
       </div>
+      <ButtonChat chat="nmap"/>
     </div>
   );
 }

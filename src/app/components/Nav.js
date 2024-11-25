@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";  // Importamos todo lo necesario
-import { auth } from "../../firebase";  // Asegúrate de que auth esté importado
+import { auth } from "../../firebase";  
 import "./Navbar.css";
 
 function Nav() {
@@ -42,22 +42,22 @@ function Nav() {
           style={{ width: "30%", height: "auto", alignSelf: "center" }}
         />
       </div>
+      <div className="divNav">
+        <Button size="large" href="/">
+          Home
+        </Button>
+      </div>
+      <div className="divNav">
+        <Button size="large" href="https://www.silikn.com/">
+          Noticias Ciberseg.
+        </Button>
+      </div>
+      <div className="divNav">
+        <Button size="large" href="https://gtfobins.github.io/">
+          GTFOBins
+        </Button>
+      </div>
 
-      <div className="divNav">
-        <Button size="large" href="/">
-          Home
-        </Button>
-      </div>
-      <div className="divNav">
-        <Button size="large" href="/">
-          Home
-        </Button>
-      </div>
-      <div className="divNav">
-        <Button size="large" href="/">
-          Home
-        </Button>
-      </div>
       <div className="divNav">
         {!user ? (
           <Button size="large" color="error" onClick={handleLogin}>
