@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import ChatPage from '../components/ChatPage';  // Asegúrate de importar tu componente de chat
 import '../App.css';  // Importamos los estilos
 
-const ButtonChat = () => {
+const ButtonChat = ({chat}) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const toggleChat = () => {
@@ -19,7 +19,7 @@ const ButtonChat = () => {
       </div>
       {isChatOpen && (
         <div className="chat-container">
-          <ChatPage />
+          <ChatPage chat={chat}/>
         </div>
       )}
       <link

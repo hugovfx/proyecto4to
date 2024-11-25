@@ -1,29 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { db, auth } from '../../firebase'; // Asegúrate de que `auth` esté exportado desde tu configuración de Firebase
-import { collection, addDoc, serverTimestamp, query, onSnapshot, orderBy } from 'firebase/firestore';
+import { db, auth } from '../../firebase';
+import { collection, addDoc, serverTimestamp, query, onSnapshot, orderBy, doc, deleteDoc } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from 'firebase/auth';
 import '../App.css';
 
-const ChatPage = () => {
+const ChatPage = ({ chat }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [user, setUser] = useState(null);
-  const roomId = "nmap"; // Sala por defecto
+  const [selectingMessages, setSelectingMessages] = useState(false);
+  const [selectedMessages, setSelectedMessages] = useState([]);
+  const roomId = chat;
 
-  // Obtener mensajes de Firestore
   useEffect(() => {
     const q = query(collection(db, 'rooms', roomId, 'messages'), orderBy('timestamp', 'asc'));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const messageList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setMessages(messageList);
-    }, (error) => {
-      console.error("Error al cargar los documentos:", error);
     });
-  
-    return () => unsubscribe();
-  }, [roomId]);  
 
-  // Monitorear el estado de autenticación
+    return () => unsubscribe();
+  }, [roomId]);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -32,7 +30,6 @@ const ChatPage = () => {
     return () => unsubscribe();
   }, []);
 
-  // Manejar inicio de sesión con Google
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
@@ -42,7 +39,6 @@ const ChatPage = () => {
     }
   };
 
-  // Manejar cierre de sesión
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -52,7 +48,6 @@ const ChatPage = () => {
     }
   };
 
-  // Enviar un mensaje
   const sendMessage = async (e) => {
     e.preventDefault();
     if (input.trim() === '') return;
@@ -61,78 +56,140 @@ const ChatPage = () => {
       await addDoc(collection(db, 'rooms', roomId, 'messages'), {
         text: input,
         name: user.displayName,
-        uid: user.uid,  // Guardar el UID del usuario
+        uid: user.uid,
         timestamp: serverTimestamp(),
-      });      
+      });
       setInput('');
     } catch (error) {
       console.error("Error al enviar el mensaje:", error);
     }
   };
 
+  const deleteMessages = async () => {
+    try {
+      for (let messageId of selectedMessages) {
+        await deleteDoc(doc(db, 'rooms', roomId, 'messages', messageId));
+      }
+      setSelectedMessages([]);
+      setSelectingMessages(false);
+    } catch (error) {
+      console.error("Error al eliminar los mensajes:", error);
+    }
+  };
+
+  const handleCheckboxChange = (messageId) => {
+    setSelectedMessages((prevSelectedMessages) => {
+      if (prevSelectedMessages.includes(messageId)) {
+        return prevSelectedMessages.filter(id => id !== messageId);
+      } else {
+        return [...prevSelectedMessages, messageId];
+      }
+    });
+  };
+
   return (
-    <div style={{ padding: '0px', height: '100%', overflowY: 'auto'}}>
+    <div style={{ padding: '0px', height: '100%', overflowY: 'auto' }}>
       {!user ? (
-        <button onClick={handleLogin} style={{ padding: '10px', marginBottom: '20px' }}>
-          Iniciar sesión con Google
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+          <button onClick={handleLogin} style={{ padding: '6px', marginBottom: '10px', backgroundColor: "rgb(0,0,0,0.0)", border: "solid 2px #424ea5", fontSize: "18px", color:"#424ea5" }}>
+            Iniciar sesión con Google
+          </button>
+        </div>
       ) : (
         <div>
-            <button onClick={handleLogout} style={{ padding: '10px', marginBottom: '10px' }}>
-              Cerrar sesión
-            </button>
-          <div className='chat-div'>
-          {messages.length === 0 ? (
-            <div>No hay mensajes en esta sala.</div>
-          ) : (
-            messages.map((message) => (
-              <div
-                key={message.id}
-                className="message-bubble"
+          <div style={{display: "flex", flexDirection:"row", width:"90%", justifyContent: "space-between"}}>
+          <button onClick={handleLogout} style={{ padding: '6px', marginBottom: '10px', backgroundColor: "rgb(0,0,0,0.0)", border: "solid 2px #a54242", fontSize: "18px", color:"#a54242" }}>
+            Cerrar sesión
+          </button>
+          <button
+                onClick={() => setSelectingMessages(!selectingMessages)}
                 style={{
-                  backgroundColor: message.uid === user.uid ? 'lightblue' : 'white',  // Resaltar el mensaje del usuario actual
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '20px',
+                  color: '#a54242',
                 }}
               >
-                <div className="message-name">{message.name || 'Anónimo'}</div>
-                <div className="message-text">{message.text}</div>
-              </div>
-            ))
-          )}
+                <i className="fa fa-trash" />
+              </button>
           </div>
+          <div className='chat-div'>
+            <div className='messages-container'>
+              {messages.length === 0 ? (
+                <div>No hay mensajes en esta sala.</div>
+              ) : (
+                messages.map((message) => (
+                  <div key={message.id} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                    {selectingMessages && (
+                      <input
+                        type="checkbox"
+                        checked={selectedMessages.includes(message.id)}
+                        onChange={() => handleCheckboxChange(message.id)}
+                        style={{ marginRight: '10px' }}
+                      />
+                    )}
+                    <div
+                      className="message-bubble"
+                      style={{
+                        backgroundColor: message.uid === user.uid ? 'lightblue' : 'white',
+                        padding: '10px',
+                        borderRadius: '8px',
+                        width: '80%',
+                      }}
+                    >
+                      <div className="message-name">{message.name || 'Anónimo'}</div>
+                      <div className="message-text">{message.text}</div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
 
-          <form onSubmit={sendMessage} style={{ display: "flex", alignItems: "center", flexDirection:"row", justifyContent: "space-around", position:"absolute", bottom:"0px"}}>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Escribe un mensaje"
-              style={{
-                width: "80%",
-                borderRadius: "8px",
-                border: "0px solid #ccc",
-                color: "white",
-                fontSize: "18px",  
-                backgroundColor:"black",
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "green",
-                color: "#fff",
-                border: "none",
-                borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                cursor: "pointer",
-              }}
-            >
-              <i className="fa fa-paper-plane" style={{ fontSize: "18px" }}></i>
-            </button>
-          </form>
+            {selectingMessages && (
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                <button
+                  onClick={deleteMessages}
+                  style={{ padding: '6px', marginBottom: '10px', backgroundColor: "rgb(0,0,0,0.0)", border: "solid 2px #a54242", fontSize: "18px", color:"#a54242" }}
+                >
+                  Borrar mensajes
+                </button>
+              </div>
+            )}
+
+            <form onSubmit={sendMessage} style={{ display: "flex", alignItems: "center", flexDirection: "row", justifyContent: "space-around", position: "absolute", bottom: "0px", width:"90%" }}>
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Escribe un mensaje"
+                style={{
+                  width: "80%",
+                  borderRadius: "8px",
+                  border: "0px solid #ccc",
+                  color: "white",
+                  fontSize: "18px",
+                  backgroundColor: "#000318",
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  backgroundColor: "#384390",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "50%",
+                  display: "flex",
+                  padding:"15px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                }}
+              >
+                <i className="fa fa-paper-plane" style={{ fontSize: "18px" }}></i>
+              </button>
+            </form>
+          </div>
         </div>
       )}
     </div>
