@@ -4,7 +4,7 @@ import Side from "../components/Side";
 import Nav from "../components/Nav";
 import { useState } from 'react';
 import Content from "../components/Content";
-
+import ButtonChat from "../components/ButtonChat";
 export default function Home() {
   const [searchType, setSearchType] = useState('ip');
   const [query, setQuery] = useState('');
@@ -205,10 +205,7 @@ export default function Home() {
           </div>
         }/>
       </div>
-<<<<<<< HEAD
-=======
       <ButtonChat chat="nmap"/>
->>>>>>> 2ce36e1521801ed0b7a04ef5940f103b0a0ebbce
     </div>
   );
 }
