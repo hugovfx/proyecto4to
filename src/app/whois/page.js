@@ -11,7 +11,7 @@ export default function WhoisPage() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [searchType, setSearchType] = useState('domain'); // domain, ip, email
+  const [searchType, setSearchType] = useState('domain');
 
   const EXAMPLE_QUERIES = {
     domain: [
@@ -98,7 +98,6 @@ export default function WhoisPage() {
             <div className="flex flex-col space-y-6 max-w-4xl mx-auto">
               <div className="flex flex-col space-y-4">
                 <div className="flex flex-col gap-4 items-center">
-                  {/* Selector de tipo de búsqueda */}
                   <div className="flex gap-4 mb-2">
                     <button
                       onClick={() => setSearchType('domain')}
@@ -131,8 +130,6 @@ export default function WhoisPage() {
                       Email
                     </button>
                   </div>
-
-                  {/* Barra de búsqueda */}
                   <div className="flex gap-4 w-full justify-center">
                     <input
                       type="text"
@@ -165,8 +162,6 @@ export default function WhoisPage() {
                       </button>
                     </div>
                   </div>
-
-                  {/* Ejemplos */}
                   <div className="flex flex-col items-center">
                     <p className="text-sm text-gray-300 mb-2">
                       Ejemplos de {
@@ -201,7 +196,6 @@ export default function WhoisPage() {
                   </h2>
                   
                   <div className="grid gap-6">
-                    {/* Información General */}
                     <div className="space-y-4">
                       <h3 className="font-bold text-white text-lg border-b border-gray-600 pb-2">
                         Información General
@@ -240,8 +234,6 @@ export default function WhoisPage() {
                         </p>
                       </div>
                     </div>
-
-                    {/* Servidores de Nombres */}
                     {result.nameServers && result.nameServers.length > 0 && (
                       <div className="space-y-4">
                         <h3 className="font-bold text-white text-lg border-b border-gray-600 pb-2">
@@ -254,8 +246,6 @@ export default function WhoisPage() {
                         </div>
                       </div>
                     )}
-
-                    {/* Direcciones IP */}
                     {result.ips && result.ips.length > 0 && (
                       <div className="space-y-4">
                         <h3 className="font-bold text-white text-lg border-b border-gray-600 pb-2">
@@ -268,8 +258,6 @@ export default function WhoisPage() {
                         </div>
                       </div>
                     )}
-
-                    {/* Información de Registro */}
                     {result.registrant && (
                       <div className="space-y-4">
                         <h3 className="font-bold text-white text-lg border-b border-gray-600 pb-2">
@@ -295,8 +283,6 @@ export default function WhoisPage() {
                         </div>
                       </div>
                     )}
-
-                    {/* Información de Contactos */}
                     {(result.contacts?.admin || result.contacts?.technical) && (
                       <div className="space-y-4">
                         <h3 className="font-bold text-white text-lg border-b border-gray-600 pb-2">

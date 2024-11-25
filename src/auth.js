@@ -1,9 +1,7 @@
-// Auth setup (firebase.js)
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 
 const auth = getAuth();
 
-// Función para registrar un usuario
 const register = async (email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -13,7 +11,6 @@ const register = async (email, password) => {
   }
 };
 
-// Función para iniciar sesión
 const login = async (email, password) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);

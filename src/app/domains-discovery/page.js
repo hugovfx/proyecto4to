@@ -115,7 +115,6 @@ export default function DomainsDiscoveryPage() {
           <div style={{ padding: '20px' }}>
             <div className="flex flex-col space-y-6 max-w-4xl mx-auto">
               <div className="flex flex-col space-y-4">
-                {/* Tipo de búsqueda */}
                 <div className="flex justify-center space-x-4">
                   <button
                     onClick={() => setSearchType('domains')}
@@ -148,8 +147,6 @@ export default function DomainsDiscoveryPage() {
                     Ambos
                   </button>
                 </div>
-
-                {/* Campos de búsqueda */}
                 <div className="flex flex-col space-y-4">
                   <input
                     type="text"
@@ -182,8 +179,6 @@ export default function DomainsDiscoveryPage() {
                     {loading ? 'Buscando...' : 'Buscar'}
                   </button>
                 </div>
-
-                {/* Ejemplos de búsqueda */}
                 <div className="flex flex-col items-center">
                   <p className="text-sm text-gray-300 mb-2">
                     Búsquedas de ejemplo:
@@ -208,8 +203,6 @@ export default function DomainsDiscoveryPage() {
                   <p className="text-red-400 text-center">{error}</p>
                 )}
               </div>
-
-              {/* Resultados */}
               {result && !loading && (
                 <div className="border border-gray-600 p-6 rounded-lg bg-gray-800 shadow-lg">
                   <h2 className="text-2xl font-semibold mb-6 text-white">

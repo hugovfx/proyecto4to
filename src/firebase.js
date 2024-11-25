@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-// Tu configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyAmoNRaOH3kxlv8bs_QI7Vpa76H6i8JM3Q",
   authDomain: "bookforum-22a5d.firebaseapp.com",

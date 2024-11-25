@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
-import { onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth";  // Importamos todo lo necesario
+import { onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup } from "firebase/auth"; 
 import { auth } from "../../firebase";  
 import "./Navbar.css";
 
