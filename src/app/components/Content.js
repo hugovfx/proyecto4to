@@ -6,7 +6,6 @@ function Content({ info, name }) {
       <div className="divM">
         <div className="divN">
           <h1>{name}</h1>
-          {/* Manejo seguro de texto o JSX en `info` */}
           {typeof info === "string" ? (
             <p style={{ textAlign: "justify" }}>{info}</p>
           ) : (

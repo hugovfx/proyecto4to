@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import ChatPage from '../components/ChatPage';  // Asegúrate de importar tu componente de chat
-import '../App.css';  // Importamos los estilos
+import ChatPage from '../components/ChatPage';
+import '../App.css';
 
 const ButtonChat = ({chat}) => {
   const [isChatOpen, setIsChatOpen] = useState(false);
