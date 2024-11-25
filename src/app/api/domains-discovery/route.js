@@ -21,7 +21,6 @@ export async function POST(request) {
     const body = await request.json();
     const { searchType, includeTerms, excludeTerms, sinceDate } = body;
 
-    // Validar términos de búsqueda
     if (!includeTerms || !validateSearchTerms(includeTerms)) {
       return NextResponse.json(
         { error: "Se requieren términos de búsqueda válidos (máximo 4)" },
@@ -29,34 +28,73 @@ export async function POST(request) {
       );
     }
 
-    // Construir el cuerpo de la petición
     const requestBody = {
       apiKey: API_KEY,
       outputFormat: 'JSON'
     };
 
-    // Agregar términos según el tipo de búsqueda
-    if (searchType === 'domains' || searchType === 'both') {
+    // Asegurarnos de que los términos tengan el formato correcto
+    const formattedIncludeTerms = includeTerms.map(term => 
+      term.includes('*') ? term : `*${term}*`
+    );
+
+    if (searchType === 'domains') {
       requestBody.domains = {
-        include: includeTerms
+        include: formattedIncludeTerms
       };
-    }
-
-    if (searchType === 'subdomains' || searchType === 'both') {
+    } else if (searchType === 'subdomains') {
       requestBody.subdomains = {
-        include: includeTerms
+        include: formattedIncludeTerms,
+        exclude: excludeTerms && validateSearchTerms(excludeTerms) ? excludeTerms : []
       };
-      if (excludeTerms && validateSearchTerms(excludeTerms)) {
-        requestBody.subdomains.exclude = excludeTerms;
-      }
+    } else if (searchType === 'both') {
+      const domainsResponse = await fetch(API_BASE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          apiKey: API_KEY,
+          outputFormat: 'JSON',
+          domains: {
+            include: formattedIncludeTerms
+          }
+        })
+      });
+
+      const subdomainsResponse = await fetch(API_BASE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          apiKey: API_KEY,
+          outputFormat: 'JSON',
+          subdomains: {
+            include: formattedIncludeTerms,
+            exclude: excludeTerms && validateSearchTerms(excludeTerms) ? excludeTerms : []
+          }
+        })
+      });
+
+      const [domainsData, subdomainsData] = await Promise.all([
+        domainsResponse.json(),
+        subdomainsResponse.json()
+      ]);
+
+      return NextResponse.json({
+        domains: domainsData.domainsList || [],
+        subdomains: subdomainsData.subdomainsList || [],
+        domainsCount: domainsData.domainsCount || 0,
+        subdomainsCount: subdomainsData.subdomainsCount || 0
+      });
     }
 
-    // Agregar fecha si está presente
     if (sinceDate) {
       requestBody.sinceDate = sinceDate;
     }
 
-    console.log('Request body:', requestBody); // Para debugging
+    console.log('Request a API externa:', requestBody);
 
     const response = await fetch(API_BASE_URL, {
       method: 'POST',
@@ -67,10 +105,10 @@ export async function POST(request) {
     });
 
     const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || 'Error en la respuesta de la API');
-    }
+    console.log('API Response:', {
+      status: response.status,
+      data: data
+    });
 
     return NextResponse.json(data);
 

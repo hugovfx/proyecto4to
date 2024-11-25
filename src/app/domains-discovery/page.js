@@ -4,7 +4,6 @@ import Side from "../components/Side";
 import Nav from "../components/Nav";
 import Content from "../components/Content";
 import { useState } from 'react';
-import ButtonChat from "../components/ButtonChat";
 
 export default function DomainsDiscoveryPage() {
   const [searchType, setSearchType] = useState('domains');
@@ -17,9 +16,22 @@ export default function DomainsDiscoveryPage() {
 
   const EXAMPLE_SEARCHES = [
     { text: 'Amazon Domains', terms: 'amazon.*', type: 'domains' },
-    { text: 'AWS Subdomains', terms: 'aws*', type: 'subdomains' },
+    { text: 'AWS Cloud', terms: '*aws*,*cloud*', type: 'subdomains' },
     { text: 'Google Sites', terms: 'google.*', type: 'both' },
+    { text: 'Microsoft Services', terms: '*microsoft*,*azure*', type: 'subdomains' },
+    { text: 'Cloud Platforms', terms: '*cloud*,*platform*', type: 'subdomains' },
+    { text: 'Email Services', terms: '*mail*,*email*', type: 'subdomains' },
+    { text: 'Development', terms: '*dev*,*api*', type: 'subdomains' },
+    { text: 'UACH', terms: '*uach*', type: 'subdomains' }
   ];
+
+  // Función para preparar términos de búsqueda
+  const prepareSearchTerm = (term) => {
+    if (!term.includes('*') && !term.includes('.')) {
+      return `*${term}*`;
+    }
+    return term;
+  };
 
   const searchDomains = async () => {
     if (!includeTerms.trim()) {
@@ -27,8 +39,19 @@ export default function DomainsDiscoveryPage() {
       return;
     }
 
-    const includeArray = includeTerms.split(',').map(term => term.trim()).filter(term => term);
-    const excludeArray = excludeTerms ? excludeTerms.split(',').map(term => term.trim()).filter(term => term) : [];
+    const includeArray = includeTerms
+      .split(',')
+      .map(term => term.trim())
+      .filter(term => term)
+      .map(prepareSearchTerm);
+
+    const excludeArray = excludeTerms
+      ? excludeTerms
+          .split(',')
+          .map(term => term.trim())
+          .filter(term => term)
+          .map(prepareSearchTerm)
+      : [];
 
     if (includeArray.length > 4) {
       setError('Máximo 4 términos de búsqueda permitidos');
@@ -40,6 +63,13 @@ export default function DomainsDiscoveryPage() {
     setResult(null);
 
     try {
+      console.log('Enviando búsqueda:', {
+        searchType,
+        includeTerms: includeArray,
+        excludeTerms: excludeArray,
+        sinceDate: sinceDate || undefined
+      });
+
       const response = await fetch('/api/domains-discovery', {
         method: 'POST',
         headers: {
@@ -54,13 +84,20 @@ export default function DomainsDiscoveryPage() {
       });
 
       const data = await response.json();
+      console.log('Datos recibidos:', data);
 
       if (!response.ok) {
         throw new Error(data.error || 'Error al realizar la búsqueda');
       }
 
-      setResult(data);
+      setResult({
+        domains: data.domainsList || [],
+        subdomains: data.subdomainsList || [],
+        domainsCount: data.domainsCount || 0,
+        subdomainsCount: data.subdomainsCount || 0
+      });
     } catch (error) {
+      console.error('Error:', error);
       setError(error.message || 'Error de conexión al servidor');
       setResult(null);
     } finally {
@@ -145,12 +182,12 @@ export default function DomainsDiscoveryPage() {
                   </button>
                 </div>
 
-                {/* Ejemplos */}
+                {/* Ejemplos de búsqueda */}
                 <div className="flex flex-col items-center">
                   <p className="text-sm text-gray-300 mb-2">
                     Búsquedas de ejemplo:
                   </p>
-                  <div className="flex gap-2">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                     {EXAMPLE_SEARCHES.map((example, index) => (
                       <button
                         key={index}
@@ -179,10 +216,10 @@ export default function DomainsDiscoveryPage() {
                   </h2>
                   
                   <div className="grid gap-6">
-                    {result.domains && (
+                    {result.domains && result.domains.length > 0 && (
                       <div className="space-y-4">
                         <h3 className="font-bold text-white text-lg border-b border-gray-600 pb-2">
-                          Dominios Encontrados
+                          Dominios Encontrados ({result.domains.length})
                         </h3>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                           {result.domains.map((domain, index) => (
@@ -192,10 +229,10 @@ export default function DomainsDiscoveryPage() {
                       </div>
                     )}
 
-                    {result.subdomains && (
+                    {result.subdomains && result.subdomains.length > 0 && (
                       <div className="space-y-4">
                         <h3 className="font-bold text-white text-lg border-b border-gray-600 pb-2">
-                          Subdominios Encontrados
+                          Subdominios Encontrados ({result.subdomains.length})
                         </h3>
                         <div className="grid grid-cols-1 gap-2">
                           {result.subdomains.map((subdomain, index) => (
@@ -218,7 +255,6 @@ export default function DomainsDiscoveryPage() {
           </div>
         }/>
       </div>
-      <ButtonChat chat={"domains-discovery"}/>
     </div>
   );
 }
