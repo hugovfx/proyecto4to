@@ -150,9 +150,9 @@ export default function Home() {
                   <div className="border border-gray-600 p-6 rounded-lg bg-gray-800 shadow-sm">
                     {searchType === 'ip' ? (
                       <>
-                        <h2 className="text-2xl font-semibold mb-4 text-white">
+                        <p className="text-2xl font-semibold mb-4 text-white">
                           Información de {result.ip_str}
-                        </h2>
+                        </p>
                         <div className="grid gap-4">
                           <div className="space-y-2">
                             <h3 className="font-bold text-white">Información General</h3>

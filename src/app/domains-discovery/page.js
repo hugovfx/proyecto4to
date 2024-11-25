@@ -77,6 +77,7 @@ export default function DomainsDiscoveryPage() {
           <div style={{ padding: '20px' }}>
             <div className="flex flex-col space-y-6 max-w-4xl mx-auto">
               <div className="flex flex-col space-y-4">
+                {/* Tipo de búsqueda */}
                 <div className="flex justify-center space-x-4">
                   <button
                     onClick={() => setSearchType('domains')}
